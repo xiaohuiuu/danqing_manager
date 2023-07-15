@@ -52,11 +52,14 @@ router.beforeEach((to, from, next) => {
     //当没有路径的时候 跳转到404
     if (!pathlist.includes(to.path)) {
         next('/notfound')
+        console.log(1)
     } else {
         //如果要跳转的路径不是login 并且localStorage没有用户信息的时候 跳转到登录页面
-        if (!localStorage.getItem('token') && to.path != '/login') {
+        if (!localStorage.getItem('token') && to.path != '/login' && to.path != '/notfound') {
             next('/login')
+            console.log(2)
         } else {
+            console.log(3)
             next()
         }
     }
