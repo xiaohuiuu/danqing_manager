@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div class="input_box">
-                    <el-form :model="user_info" class="form" size="large" :rules="rules">
+                    <el-form :model="user_info" class="form" size="large" :rules="rules" ref="form_instance">
                         <el-form-item class="input_item_username" prop="username">
                             <div class="label">电子邮件或用户名</div>
                             <el-input type="text" v-model="user_info.username"></el-input>
@@ -42,6 +42,8 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 
+
+const form_instance = ref<FormInstance>()
 interface UserInfo {
     username: string
     password: string
@@ -54,7 +56,7 @@ let user_info = reactive<UserInfo>({
 const rules = reactive<FormRules<UserInfo>>({
     username: [
         { required: true, message: '请输入账号',type:'string' },
-        { min: 3, max: 10, message: '账号长度3-5', trigger: 'blur' },
+        { min: 3, max: 10, message: '账号长度3-10', trigger: 'blur' },
     ],
     password: [
         { required: true, message: '请输入密码',type:'string' },
@@ -69,7 +71,9 @@ const router = useRouter()
 
 
 const login_click = () => {
-    console.log(user_info)
+    form_instance.value?.validate((validate)=>{
+        console.log(validate)
+    })
 }
 
 </script>
@@ -81,7 +85,7 @@ const login_click = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../../assets/img/bg1.jpg');
+    background-image: url('../../assets/img/bg3.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     color: $yinbai;
@@ -96,7 +100,7 @@ const login_click = () => {
         display: flex;
         border-radius: 5px;
         overflow: hidden;
-        opacity: 0.97;
+        opacity: 0.99;
 
         .left {
             width: 60%;
