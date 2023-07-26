@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
         console.log(1)
     } else {
         //如果要跳转的路径不是login 并且localStorage没有用户信息的时候 跳转到登录页面
-        if (!localStorage.getItem('token') && to.path != '/login' && to.path != '/notfound') {
+        if (!localStorage.getItem('token') && to.path != '/login' && to.path != '/notfound' && to.path != '/register') {
             next('/login')
             console.log(2)
         } else {

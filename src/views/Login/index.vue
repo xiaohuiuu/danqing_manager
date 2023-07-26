@@ -10,7 +10,7 @@
                 <div class="input_box">
                     <el-form :model="user_info" class="form" size="large" :rules="rules" ref="form_instance">
                         <el-form-item class="input_item_username" prop="username">
-                            <div class="label">电子邮件或用户名</div>
+                            <div class="label">电子邮件或用户名或手机号</div>
                             <el-input type="text" v-model="user_info.username"></el-input>
                         </el-form-item>
                         <el-form-item class="input_item_password" prop="password">
@@ -25,7 +25,7 @@
                     </el-form>
                 </div>
                 <div class="submit_box">
-                    <div class="label">没有账号? &nbsp;<span class="forget">注册</span></div>
+                    <div class="label">没有账号? &nbsp;<span class="forget" @click="toRegister">注册</span></div>
                 </div>
             </div>
             <div class="right">
@@ -76,6 +76,11 @@ const login_click = () => {
     })
 }
 
+const toRegister = ()=>{
+    console.log('register')
+    router.push('/register')
+}
+
 </script>
 
 <style lang='scss' scoped>
@@ -85,7 +90,7 @@ const login_click = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../../assets/img/bg3.jpg');
+    background-image: url('http://localhost:3000/upload/1690351560614.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     color: $yinbai;
