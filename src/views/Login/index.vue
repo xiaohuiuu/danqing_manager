@@ -40,7 +40,9 @@
 <script setup lang='ts'>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import http from '@/Api/http'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 
 const form_instance = ref<FormInstance>()
@@ -55,11 +57,11 @@ let user_info = reactive<UserInfo>({
 //element plus校验规则
 const rules = reactive<FormRules<UserInfo>>({
     username: [
-        { required: true, message: '请输入账号',type:'string' },
+        { required: true, message: '请输入账号', type: 'string' },
         { min: 3, max: 10, message: '账号长度3-10', trigger: 'blur' },
     ],
     password: [
-        { required: true, message: '请输入密码',type:'string' },
+        { required: true, message: '请输入密码', type: 'string' },
     ]
 })
 
@@ -71,12 +73,27 @@ const router = useRouter()
 
 
 const login_click = () => {
-    form_instance.value?.validate((validate)=>{
-        console.log(validate)
+    form_instance.value?.validate(async (validate) => {
+        let res = await http({
+            url: '/user/login',
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            data:{
+                username:user_info.username,
+                password:user_info.password
+            }
+        })
+        if(res.data.status == 'success'){
+            ElMessage.success(res.data.message)
+        }else{
+            ElMessage.error(res.data.message)
+        }
     })
 }
 
-const toRegister = ()=>{
+const toRegister = () => {
     console.log('register')
     router.push('/register')
 }

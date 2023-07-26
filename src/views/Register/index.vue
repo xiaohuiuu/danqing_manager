@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import http from '@/Api/http'
 import {ElMessage} from 'element-plus'
 
 //是否显示密码
@@ -60,8 +61,27 @@ const register = async()=>{
     ElMessage.error('密码不一致')
     return
   }
+  const {username,password,email,phone} = registerInfo
+  let res = await http({
+    url:'/user/register',
+    method:'POST',
+    headers:{
+      "Content-Type":"application/x-www-form-urlencoded"
+    },
+    data:{
+      username,
+      password,
+      email,
+      phone
+    }
+  })
 
-
+  console.log(res)
+  if(res.data.status == 'success'){
+    ElMessage.success(res.data.message)
+  }else{
+    ElMessage.error(res.data.message)
+  }
 
 }
 
