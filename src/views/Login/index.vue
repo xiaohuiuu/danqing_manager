@@ -45,6 +45,9 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
 
+localStorage.setItem('token','xujinlong')
+
+
 const form_instance = ref<FormInstance>()
 interface UserInfo {
     username: string
@@ -87,6 +90,7 @@ const login_click = () => {
         })
         if(res.data.status == 'success'){
             ElMessage.success(res.data.message)
+            localStorage.setItem('token',res.data.token)
         }else{
             ElMessage.error(res.data.message)
         }
@@ -107,7 +111,7 @@ const toRegister = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('http://localhost:3000/upload/1690351560614.jpg');
+    background-image: url('../../assets/img/bg3.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     color: $yinbai;
