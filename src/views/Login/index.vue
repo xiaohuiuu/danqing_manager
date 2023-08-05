@@ -38,16 +38,18 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, reactive } from 'vue'
+import { ref, reactive,onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import http from '@/Api/http'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
 
+
+
 localStorage.setItem('token','xujinlong')
 
-
+//过去表单实例
 const form_instance = ref<FormInstance>()
 interface UserInfo {
     username: string
@@ -70,16 +72,18 @@ const rules = reactive<FormRules<UserInfo>>({
 
 let showpwd = ref(true)
 
+//获取路由实例
 const router = useRouter()
 
 
 
-
+//点击登陆按钮
 const login_click = () => {
     form_instance.value?.validate(async (validate) => {
         let res = await http({
             url: '/user/login',
             method: 'POST',
+            //发送 form表单数据
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
@@ -88,19 +92,29 @@ const login_click = () => {
                 password:user_info.password
             }
         })
+        //账号密码验证正确
         if(res.data.status == 'success'){
             ElMessage.success(res.data.message)
             localStorage.setItem('token',res.data.token)
+            router.push('/home')
         }else{
+            //显示错误的信息
             ElMessage.error(res.data.message)
         }
     })
 }
 
+//点击注册按钮
 const toRegister = () => {
     console.log('register')
     router.push('/register')
 }
+
+//组件挂载 生命周期
+onMounted(()=>{
+
+})
+
 
 </script>
 
